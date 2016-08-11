@@ -80,26 +80,26 @@ class Syntax(object):
     def __init__(self,raw):
         self.raw =raw
 
-    def includes_are(self,line):
-        matches = re.findall(r'(?<=\.include) [^\n]*', line)
+    def includes_are(self,raw):
+        matches = re.findall(r'(?<=\.include) [^\n]*', raw)
         print "[includes] " ,matches
         return matches
 
-    def comments_are(self,line):
-        matches = re.findall(r'\s*#(.*)\s*#(.*)|#(.*)[^#]*',line,re.MULTILINE)
+    def comments_are(self,raw):
+        matches = re.findall(r'\s*#(.*)\s*#(.*)|#(.*)[^#]*',raw,re.MULTILINE)
         print "[comments] " ,matches
         return False
-    
-    def _variables_are(self,line):
+
+    def _variables_are(self,raw):
         regex = r'([^\s=]+=)(.*)|([^\s=]+=)?(.*\\\n)|((?<=\\\n).*)'
-        matches = re.findall(regex,line,re.MULTILINE)
+        matches = re.findall(regex,raw,re.MULTILINE)
         for match in matches:
             print match
             yield match
-    
-    def variables_are(self,matches):
+
+    def variables_are(self,raw):
         variables = {}
-        matches = self._variables_are(self.raw)
+        matches = self._variables_are(raw)
         previous = None
         while True:
             try:
@@ -125,18 +125,12 @@ class Syntax(object):
             print "*** %s:" % (key)
             for v in value:
                 print"    - %s"% v
-                         
-            
-            
-                        
-        
-        
 
-    def commands_are(self,line):
+    def commands_are(self,raw):
         regexp = re.compile(r'([^=]+)=([^=]+)(?:,|$)')
-        if not ".if" in line:
-            if regexp.search(line):
-                print "[variable] %s" % (line)
+        if not ".if" in raw:
+            if regexp.search(raw):
+                print "[variable] %s" % (raw)
                 return True
         return False
 
