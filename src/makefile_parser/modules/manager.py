@@ -51,6 +51,7 @@ class Manager(object):
     def main(self):
         makefiles = self._walk(self.options.path, self.options.include)
         for makefile in makefiles:
+            print makefile
             mk_obj = Makefile(self.options.path,makefile,self.options)
             self.mk_objs.append(mk_obj)
 
@@ -71,13 +72,13 @@ class Makefile(object):
             return fp.read()
 
     def _parse(self):
-        syntax = Syntax(self.raw)
-        #syntax.includes_are(self.raw)
-        #syntax.comments_are(self.raw)
+        syntax = Syntax(self.raw,self.filepath,self.options)
         syntax.variables_are(self.raw)   
 
 class Syntax(object):
-    def __init__(self,raw):
+    def __init__(self,raw,filepath,options):
+        self.options = options
+        self.filepath = filepath
         self.raw =raw
 
     def includes_are(self,raw):
@@ -94,7 +95,6 @@ class Syntax(object):
         regex = r'([^\s=]+=)(.*)|([^\s=]+=)?(.*\\\n)|((?<=\\\n).*)'
         matches = re.findall(regex,raw,re.MULTILINE)
         for match in matches:
-            print match
             yield match
 
     def variables_are(self,raw):
@@ -115,16 +115,18 @@ class Syntax(object):
                     val1 = new[1].replace('\\','').strip()
                     variables[previous]=[val1]
             else:
-                if not new[3] == '' and ':' not in new[3]:
+                if not new[3] == '' and ':' not in new[3] and not previous == None:
                     val3 = new[3].replace('\\','').strip()
                     variables[previous].append(val3)
-                if not new[4] == '':
+                if not new[4] == '' and not previous == None:
                     val4 = new[4].replace('\\','').strip()
-                    variables[previous].append(val4)      
-        for key,value in variables.iteritems():
-            print "*** %s:" % (key)
-            for v in value:
-                print"    - %s"% v
+                    variables[previous].append(val4)
+        if self.options.debug:
+            print "[Variables] @ %s" % self.filepath
+            for key,value in variables.iteritems():
+                print "*** %s:" % (key)
+                for v in value:
+                    print"    - %s"% v
 
     def commands_are(self,raw):
         regexp = re.compile(r'([^=]+)=([^=]+)(?:,|$)')
