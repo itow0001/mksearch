@@ -87,7 +87,11 @@ class Manager(object):
         return False
     
     def _write(self,data):
-        path = "%s/results.json" % (os.getcwd())
+        '''
+        writes json file
+        :param data: Dict
+        '''
+        path = "%s/%s" % (os.getcwd(),self.options.json)
         print "[results] @ %s" % path
         with open(path, 'w') as file:
             file.write(json.dumps(data,
@@ -96,7 +100,7 @@ class Manager(object):
 
     def main(self):
         '''
-        main entry point
+        main entry point of class
         '''
         makefiles = self._walk(self.options.path, self.options.include)
         for makefile in makefiles:

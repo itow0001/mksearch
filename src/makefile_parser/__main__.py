@@ -13,10 +13,10 @@ def menu():
     parser = argparse.ArgumentParser(
         description='mksearch')
     parser.add_argument('-j',
-                        action="store_true",
+                        action="store",
                         dest="json",
-                        default=False,
-                        help='execute the values')
+                        default='results.json',
+                        help='a file path and name')
     parser.add_argument('-e',
                         action="store_true",
                         dest="execute",
