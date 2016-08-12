@@ -16,7 +16,7 @@ def menu():
                         action="store",
                         dest="json",
                         default='results.json',
-                        help='a file path and name')
+                        help='json filename')
     parser.add_argument('-e',
                         action="store_true",
                         dest="execute",
@@ -26,7 +26,7 @@ def menu():
                         action="store_true",
                         dest="debug",
                         default=False,
-                        help='execute the values')
+                        help='print debug info out')
     parser.add_argument('-p',
                         action="store",
                         dest="path",
