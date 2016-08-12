@@ -9,8 +9,7 @@
     - Comments
     The goal is to fully support GNU make standards:
     https://www.gnu.org/software/make/manual/html_node/Quick-Reference.html
-    
-    This tools was designed to support Freebsd but should work for all systems 
+    This tool was designed to support Freebsd but should work for all systems 
     using GNU make
 ```
 ###Package Create/Install###
