@@ -29,7 +29,7 @@ setup(
     long_description=readme(),
     author='Ian Itow',
     author_email='itow0001@gmail.com',
-    url='https://github.com/itow0001/TEMPLATE',
+    url='https://github.com/itow0001/mksearch',
     license='MIT',
     classifiers=[
         'Topic :: Software Development :: Build Tools',
