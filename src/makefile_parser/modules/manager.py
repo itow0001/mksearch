@@ -7,7 +7,6 @@ import os
 import sys
 import re
 import json
-from goephor.version import string
 
 class Manager(object):
     ''' Represents a management singleton
